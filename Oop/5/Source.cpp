@@ -1,10 +1,10 @@
-// HassaanNaveed.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-#include "Header.h"
 #include <iostream>
+#include "Header.h"
+#include <cstring>
 using namespace std;
+
 int main()
 {
-    cout << "Hello World!\n";
+    cout << stlength("Hello");
+    return 0;
 }
-

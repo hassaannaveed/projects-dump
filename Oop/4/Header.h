@@ -1,228 +1,274 @@
-
-#include <iostream>
-using namespace std;
-void print_pattern(char ch, int n) {
-	cout << " "<<ch<<" ";
-	if (n < 1) {
-		for (int i = 0; i < n;i++) {
-			print_pattern(ch,n);
-		}		
+#pragma once
+class Date {
+private:
+	int year;
+	int month;
+	int day;
+public:
+	int getyear(void) {
+		return year;
 	}
-}
-
-int returnMini(int arr[], int index, int len) {
-	return 0;
-}
-
-void printPrimeFactors(int num) {
-	for (int i = 1; i < num; i++) {
-		if (num % i == 0) {
-			cout << i;
+	void setyear(int yr) {
+		year = yr;
+	}
+	int getmonth(void) {
+		return month;
+	}
+	void setmonth(int mnth){
+		month = mnth;
+	}
+	int getday(void) {
+		return day;
+	}
+	void setday(int day) {
+		this->day = day;
+	}
+	bool isLeapYear() {
+		if (this->year % 4 == 0) {
+			if (this->year % 100 == 0) {
+				if (this->year % 400 == 0) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			else {
+				return true;
+			}
+		}
+		else {
+			return false;
 		}
 	}
-}
-
-
-void print_num(int n) {
-	int temp = n;
-	cout << n;
-	if (n > 0) {
-		print_num(n - 1);
+	int daysBetween(Date d) {
+		if (this->day > d.day) {
+			return(this->day - d.day);
+		}
+		else if (this->day < d.day) {
+			return(d.day - this->day);
+		}
+		else {
+			return 0;
+		}
 	}
-	
-}
+};
 
 
-void Printpattern (int n, int k) {
-	int temp = 0;
-	for (int i = 0; i < n; i++) {
-		cout << "*";
-	}
-	cout << n;
-	temp = k;
-	if (n < temp) {
-		Printpattern(n + 1,temp);
-	}
-
-}
-
-struct Student {
+class Sale {
 private:
-	int rollNum;
-	string nam;
-	string dept;
-	int batch;
-	float cgpa;
+	double itemCost;
+	int itemQuantity;
+	double taxRate;
+public:
+	double getitemCost(void) {
+		return itemCost;
+	}
+	void setitemCost(double cost) {
+		itemCost = cost;
+	}
+	int getitemQuantity(void) {
+		return itemQuantity;
+	}
+	void setitemQuantity(int qt) {
+		itemQuantity = qt;
+	}
+	int gettaxRate(void) {
+		return taxRate;
+	}
+	void settaxRate(double rate) {
+		taxRate = rate;
+	}
+	double getTax(void) {
+		return(itemCost * taxRate);
+	}
+	double getTotal() {
+		return(itemCost + getTax());
+	}
+	Sale() {
+		itemCost = 0;
+		itemQuantity = 0;
+		taxRate = 0;
+	}
+	Sale(double cost, int quantity, double rate) {
+		itemCost = cost;
+		itemQuantity = quantity;
+		taxRate = rate;
+	}
+};
+
+class Storage {
+private:
+	int* items;
+	int capacity;
+	int counter;
+	
+public:
+	Storage(int c) {
+		capacity = c;
+		items = new int [c];
+		counter = 0;
+	}
+	bool isFull(void) {
+		if (counter == capacity) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	void insert(int val) {
+		if (isFull() == false) {
+			items[counter] = val;
+			counter = counter + 1;
+		}
+	}
+	bool search(int val) {
+
+		for (int i = 0; i < counter; i++) {
+			if (items[i] == val) {
+				return true;
+			}
+		}
+
+	}
+	void remove(int val) {
+		for (int i = 0; i < counter; i++) {
+			if (items[i] == val) {
+				for (int j = i; j < counter; j++) {
+					items[j] = items[j + 1];
+				}
+			}
+		}
+	}
+	void Print() {
+		for (int i = 0; i < counter; i++) {
+			cout << items[i]<<endl;
+		}
+	}
+};
+
+class CoffeeShots {
+private:
+	string type;
+	double price;
+	float volume;
+	char size;
 
 public:
-	int getRollNum() {
-		return rollNum;
-	}
-	void setRollNum(int i) {
-		rollNum = i;
-	}
-	string getName() {
-		return nam;
-	}
-	void setName(string name) {
-		nam = name;
-	}
-	string getDep() {
-		return dept;
-	}
-	void setDep(string dp) {
-		dept = dp;
-	}
-	int getBatch() {
-		return batch;
-	}
-	void setBatch(int bat) {
-		batch = bat;
-	}
-	float getCGPA() {
-		return cgpa;
-	}
-	void setCGPA(float gpa) {
-		cgpa = gpa;
-	}
-	void sortStudent(Student arr[], int s) {
-		bool swap = true;
-		for (int i = 0; i < s - 1; i++) {
-				if (arr[i].cgpa > arr[i + 1].cgpa) {
-					int temp = arr[i].cgpa;
-					arr[i].cgpa = arr[i + 1].cgpa;
-					arr[i + 1].cgpa = temp;
-					swap = true;
-				}
-				if (swap = false && i > s) {
-					break;
-				}
+	CoffeeShots(string t, double p,float v) {
+		type = t;
+		price = p;
+		volume = v;
+		if (v > 0 && v < 50) {
+			size = 's';
 		}
-		for (int i = 0; i < s - 1; i++) {
-			cout << "Student " << i + 1 << ":" << endl;
-			cout << arr[i].getRollNum()<<endl;
-			cout << arr[i].getName() << endl;
-			cout << arr[i].getDep() << endl;
-			cout << arr[i].getBatch() << endl;
-			cout << arr[i].getCGPA() << endl;
+		else if (v > 51 && v < 75) {
+			size = 'm';
+		}
+		else if (v > 75) {
+			size = 'l';
 		}
 	}
-	void printInfo(Student arr[], int s) {
-		sortStudent(arr, 5);
-		cout << "Student with highest GPA in array:" << endl;
-		cout << arr[4].getRollNum() << endl;
-		cout << arr[4].getName() << endl;
-		cout << arr[4].getDep() << endl;
-		cout << arr[4].getBatch() << endl;
-		cout << arr[4].getCGPA() << endl;
-		cout << "Student with lowest GPA in array:" << endl;
-		cout << arr[0].getRollNum() << endl;
-		cout << arr[0].getName() << endl;
-		cout << arr[0].getDep() << endl;
-		cout << arr[0].getBatch() << endl;
-		cout << arr[0].getCGPA() << endl;
-		cout << "Student with average GPA in array:" << endl;
-		cout << arr[2].getRollNum() << endl;
-		cout << arr[2].getName() << endl;
-		cout << arr[2].getDep() << endl;
-		cout << arr[2].getBatch() << endl;
-		cout << arr[2].getCGPA() << endl;
+	string gettype(void) {
+		return type;
 	}
-
-
-};
-
-void fillstructure(Student arr[5]) {
-	int rollnum;
-	string name;
-	string department;
-	int batch;
-	float gpa;
-	for (int i = 0; i < 5; i++) {
-		cout << "Student " <<i+1<<":"<<endl;
-		cout << "Enter the roll number of the student: ";
-		cin >> rollnum;
-		arr[i].setRollNum(rollnum);
-		cout << "Enter the name of the student: ";
-		cin >> name;
-		arr[i].setName(name);
-		cout << "Enter the department of the student: ";
-		cin >> department;
-		arr[i].setDep(department);
-		cout << "Enter the batch of the student: ";
-		cin >> batch;
-		arr[i].setBatch(batch);
-		cout << "Enter the CGPA of the student: ";
-		cin >> gpa;
-		arr[i].setCGPA(gpa);
+	double getprice(void) {
+		return price;
 	}
-
-}
-
-struct Employee{
-	
-	private:
-	int empNo;
-	long basicPay;
-	long houseRent;
-	long medicalAllow;
-	long conveyanceAllow;
-	long netPay;
-	
-	public:
-	void setBasicPay(long bp) {
-		basicPay = bp;
+	float getvolume(void) {
+		return volume;
 	}
-	long getBasicPay() {
-		return basicPay;
+	char getsize(void) {
+		return size;
 	}
-	void setEmpNo(int e) {
-		empNo = e;
+	void setprice(double s) {
+		price = s;
 	}
-	int getEmpNo() {
-		return empNo;
+	void upSize() {
+		volume = volume + 5.0;
+		if (volume > 0 && volume < 50) {
+			size = 's';
+		}
+		else if (volume > 51 && volume < 75) {
+			size = 'm';
+		}
+		else if (volume > 75) {
+			size = 'l';
+		}
+		price = price + 5.0;
 	}
-	void calculateHouseRent() {
-		houseRent = ((54/100)*basicPay);
-	}
-	void calculateMedicalAllowance() {
-		medicalAllow = ((15/100)*basicPay);
-	}
-	void calculateConveyanceAllowance() {
-		conveyanceAllow = ((20/100)*basicPay);
-	}
-	void calculateNetPay() {
-		netPay = basicPay + houseRent + medicalAllow + conveyanceAllow;
-	}
-	long gethouseRent() {
-		return houseRent;
-	}
-	long getMedicalAllowance() {
-		return medicalAllow;
-	}
-	long getConveyanceAllowance() {
-		return conveyanceAllow;
-	}
-	long getNetPay() {
-		return netPay;
+	void spillOver(float ml) {
+		volume = volume - ml;
 	}
 };
 
-void swap(Employee& emp1, Employee& emp2) {
-	int empNo;
-	long basicPay;
-	empNo = emp1.getEmpNo();
-	basicPay = emp1.getBasicPay();
-	emp1.setEmpNo(emp2.getEmpNo());
-	emp1.setBasicPay(emp2.getBasicPay());
-	emp1.calculateHouseRent();
-	emp1.calculateMedicalAllowance();
-	emp1.calculateConveyanceAllowance();
-	emp1.calculateNetPay();
-	emp2.setEmpNo(empNo);
-	emp2.setBasicPay(basicPay);
-	emp2.calculateHouseRent();
-	emp2.calculateMedicalAllowance();
-	emp2.calculateConveyanceAllowance();
-	emp2.calculateNetPay();
+CoffeeShots& createMyCoffee(void) {
+
+	string a;
+	double b;
+	float c;
+	cout << "Enter the type of the coffee: ";
+	cin >> a;
+	cout << "Enter the price of the coffee: ";
+	cin >> b;
+	cout << "Enter the volume of the coffee: ";
+	cin >> c;
+	CoffeeShots coffee(a, b, c);
+	return coffee;
 }
+
+class Block {
+private:
+	int length;
+	int breadth;
+	int height;
+	string colors;
+	string materials;
+public:
+	Block() {
+
+	}
+	int getlength(void) {
+		return length;
+	}
+	int getbreadth(void) {
+		return breadth;
+	}
+	int getheight(void){
+		return height;
+	}
+	string getcolors(void) {
+		return colors;
+	}
+	string getmaterial(void) {
+		return materials;
+	}
+	void setlength(int l) {
+		length = l;
+	}
+	void setbreadth(int b) {
+		breadth = b;
+	}
+	void setheight(int h) {
+		height = h;
+	}
+	void setcolors(string c) {
+		colors = c;
+	}
+	int getVolume(void) {
+		return (length * breadth * height);
+	}
+	int getArea(void) {
+		return (2*(length + breadth + height));
+	}
+	void Print(void) {
+		cout << "Length is: " << length<<endl;
+		cout << "Breadth is: " << breadth<<endl;
+		cout << "Height is: " << height<<endl;
+		cout << "Material is: " << materials<<endl;
+		cout << "Color is: " << colors << endl;
+		cout << "Volume is: " << getVolume() << endl;
+		cout << "Area is: " << getArea() << endl;
+	}
+};

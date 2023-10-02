@@ -1,114 +1,60 @@
 #pragma once
 
 #include <iostream>
+#include "Header.h"
 using namespace std;
 
-class Course {
-	string courseCode;
-	string courseTitle;
-	string courseType;
-	int creditHours;
-	string courseTeacher;
-	char section;
-
-public:
-	Course();
-	Course(Course& c);
-	Course(string cc, string ctitle, string ctype, int ch, string cther, char s);
-	void setCourseCode(string cc);
-	void setCourseTitle(string ctitle);
-	void setCourseType(string ctype);
-	void setCreditHours(int ch);
-	void setCourseTeacher(string cther);
-	void setSection(char s);
-	string getCourseCode(void);
-	string getCourseTitle(void);
-	string getCourseType(void);
-	int getCreditHours(void);
-	string getCourseTeacher(void);
-	char getSection(void);
-
-};
-
-class Semester {
-	string semesterCode;
-	int courseCount;
-	Course* courseArr;
-
-public:
-	Semester();
-	Semester(Semester& s);
-	Semester(string sc, int c, Course* courseArr);
-	void setSemesterCode(string sc);
-	void setCourseCount(int cc);
-	string getSemesterCode(void);
-	int getCourseCount(void);
-	Course getCourseArr(void);
-};
-
-class Counter {
-	int count;
-	int objCount;
-	int serialNo;
-
-public:
-	Counter();
-	Counter(int c);
-	~Counter();
-	void setCount(int c);
-	int getCount()const;
-	int getSerialNo()const;
-	static int getObjCount();
-	static int IncrementObjCount();
-	Counter operator=(const Counter& obj);
-	Counter operator–();
-};
-
-class Square {
-	int side;
-	int area;
-public:
-	Square();
-	Square(int i);
-	bool setSide(int f);
-	int getSide()const;
-	bool setArea();
-	int getArea()const;
-	Square operator+(const Square& obj);
-	Square operator*(const Square& obj);
-	bool operator>(const Square& obj);
-	bool operator<=(const Square& obj);
-	const Square operator=(const Square& obj);
-};
-
-class Complex {
-	double real;
-	double imaginary;
-public:
-	Complex(double r, double i);
-	void setReal(double r);
-	double getReal()const;
-	void setImaginary(double i);
-	double getImaginary() const;
-	Complex operator - (const Complex& obj);
-	Complex operator += (const Complex& obj);
-	Complex operator /= (const Complex& obj);
-	void operator = (const Complex& obj);
-	bool operator != (const Complex& obj);
-	bool operator+ ()const;
-};
-
-class Date {
-	int year;
-	int month;
+class DayOfYear {
+private:
 	int day;
+
 public:
-	Date(int year, int month, int day);
-	int getDay();
-	int getMonth();
-	int getYear();
-	void operator = (const Date& obj);
-	void operator + (const Date& obj);
-	void operator -= (const Date& obj);
-	void operator += (const Date& obj);
+	string print();
+	void operator+ (int val);
+	void operator+= (const DayOfYear& right);
+	void operator-= (const DayOfYear& right);
+	void operator= (const DayOfYear& right);
+	bool operator== (const DayOfYear& right);
+	void operator++ (const DayOfYear& right);
+	void operator-- ();
+	friend ostream& operator<< (ostream& os, DayOfYear& right);
+	friend istream& operator>> (istream& in, DayOfYear& right);
 };
+
+class Matrix {
+	int rows;
+	int columns;
+	int** ptr;
+public:
+	Matrix(int r, int c);
+	bool operator< (const Matrix& right);
+	void operator+= (const Matrix& right);
+	void operator-= (const Matrix& right);
+	void operator*= (const Matrix& right);
+	Matrix operator++ (int);
+};
+
+
+
+class Money {
+	int dollar;
+	int cents;
+public:
+	Money();
+	Money(int dollar, int cents);
+	void operator++ ();
+	Money operator++ (int);
+	void operator-- ();
+	Money operator-- (int);
+	void operator*= (const Money& right);
+	bool operator!= (const Money& right);
+	friend ostream & operator<< (ostream& os, Money& right);
+	friend istream & operator>> (istream& in, Money& right);
+	~Money();
+	int GetDollar(void);
+	int GetCents(void);
+	void SetDollar(int d);
+	void SetCents(int c);
+	
+};
+

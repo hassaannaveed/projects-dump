@@ -8,164 +8,344 @@ SE-F
 #include "Header.h"
 using namespace std;
 
-string DayOfYear::print() {
-
-}
-void DayOfYear::operator+ (int val) {
-	this->day += val;
-}
-void DayOfYear::operator+= (const DayOfYear& right) {
-	this->day += right.day;
-}
-void DayOfYear::operator-= (const DayOfYear& right) {
-	this->day -= right.day;
-}
-void DayOfYear::operator= (DayOfYear& right) {
-	this->day = right.day;
-}
-bool DayOfYear::operator== (const DayOfYear& right) {
-	if (this->day == right.day) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-void DayOfYear::operator++ () {
-	if (this->day == 365) {
-		this->day = 1;
-	}
-	else {
-		this->day++;
-	}
-}
-void DayOfYear::operator-- () {
-	if (this->day == 1) {
-		this->day = 365;
-	}
-	else {
-		this->day--;
-	}
-}
-ostream& operator<< (ostream& os, DayOfYear& right) {
-	os << right.day;
-}
-istream& operator>> (istream& in, DayOfYear& right) {
-	in >> right.day;
+Vehicle::Vehicle() {
+    mileage = 0;
+    price = 0;
 }
 
-Matrix::Matrix(int r, int c) {
-	rows = r;
-	columns = c;
-	ptr = new int* [rows];
-	for (int i = 0; i < rows; i++) {
-		ptr[rows] = new int[columns];
-	}
-}
-bool Matrix::operator< (const Matrix& right) {
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < columns; j++) {
-			if (this->ptr[i][j] > right.ptr[i][j]) {
-				return false;
-			}
-		}
-	}
-	return true;
-}
-void Matrix::operator+= (const Matrix& right) {
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < columns; j++) {
-			this->ptr[i][j] += right.ptr[i][j];
-		}
-	}
-}
-void Matrix::operator-= (const Matrix& right) {
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < columns; j++) {
-			this->ptr[i][j] -= right.ptr[i][j];
-		}
-	}
-}
-void Matrix::operator*= (const Matrix& right) {
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < columns; j++) {
-			this->ptr[i][j] *= right.ptr[i][j];
-		}
-	}
-}
-Matrix Matrix::operator++ (int) {
-	Matrix obj(this->rows, this->columns);
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < columns; j++) {
-			obj.ptr[i][j]++;
-		}
-	}
-	return obj;
+Car::Car() {
+    cost = 0.0;
+    warranty = 0;
+    seating = 0;
+    fueltype = "";
 }
 
-Money::Money(void) {
-	SetDollar(0);
-	SetCents(0);
+Bike::Bike() {
+    cylinders = 0;
+    gears = 0;
+    cooling = "";
+    wheel = "";
+    fueltanksize = 0;
 }
-Money::Money(int dollar, int cents) {
-	SetDollar(dollar);
-	SetCents(cents);
-}
-void Money::operator++ () {
-	this->dollar = this->dollar + 1;
-	this->cents = this->cents + 1;
-}
-Money Money::operator++ (int) {
-	Money obj(this->GetDollar(), this->GetCents());
-	obj.SetDollar(obj.GetDollar() + 1);
-	obj.SetCents(obj.GetCents() + 1);
-	return obj;
-}
-void Money::operator-- () {
-	this->dollar = this->dollar - 1;
-	this->cents = this->cents - 1;
-}
-Money Money::operator-- (int) {
-	Money obj(this->GetDollar(), this->GetCents());
-	obj.SetDollar(obj.GetDollar() - 1);
-	obj.SetCents(obj.GetCents() - 1);
-	return obj;
-}
-void Money::operator*= (const Money& right) {
-	this->dollar *= right.dollar;
-	this->cents *= right.cents;
-}
-bool Money::operator!= (const Money& right) {
-	if (this->dollar != right.dollar) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-ostream & operator<< (ostream& os, Money& right) {
-	os << right.dollar << right.cents;
-}
-istream& operator>> (istream& in, Money& right) {
-	in >> right.dollar >> right.cents;
-}
-Money::~Money() {
 
+Audi::Audi() {
+    model = "";
 }
-int Money::GetDollar(void) {
-	return dollar;
+
+Ford::Ford() {
+    model = "";
 }
-int Money::GetCents(void) {
-	return cents;
+
+Bajaj::Bajaj() {
+    maketype = "";
 }
-void Money::SetDollar(int d) {
-	dollar = d;
+TVS::TVS() {
+    maketype = "";
 }
-void Money::SetCents(int c) {
-	cents = c;
+
+double Audi::getMileage() {
+	return mileage;
+}
+void Audi::setMileage(double m) {
+	mileage = m;
+}
+double Audi::getPrice() {
+	return price;
+}
+void Audi::setPrice(double p) {
+	price = p;
+}
+double Audi::getCost() {
+	return cost;
+}
+void Audi::setCost(double c) {
+	cost = c;
+}
+double Audi::getWarranty() {
+	return warranty;
+}
+void Audi::setWarranty(int w) {
+	warranty = w;
+}
+int Audi::getSeatingCapacity() {
+	return mileage;
+}
+void Audi::setSeatingCapacity(int c) {
+	seating = c;
+}
+string Audi::getFuelType() {
+	return fueltype;
+}
+void Audi::setFuelType(string f) {
+	fueltype = f;
+}
+string Audi::getModel() {
+	return model;
+}
+void Audi::setModel(string m) {
+	model = m;
+}
+
+double Ford::getMileage() {
+	return mileage;
+}
+void Ford::setMileage(double m) {
+	mileage = m;
+}
+double Ford::getPrice() {
+	return price;
+}
+void Ford::setPrice(double p) {
+	price = p;
+}
+double Ford::getCost() {
+	return cost;
+}
+void Ford::setCost(double c) {
+	cost = c;
+}
+double Ford::getWarranty() {
+	return warranty;
+}
+void Ford::setWarranty(int w) {
+	warranty = w;
+}
+int Ford::getSeatingCapacity() {
+	return mileage;
+}
+void Ford::setSeatingCapacity(int c) {
+	seating = c;
+}
+string Ford::getFuelType() {
+	return fueltype;
+}
+void Ford::setFuelType(string f) {
+	fueltype = f;
+}
+string Ford::getModel() {
+	return model;
+}
+void Ford::setModel(string m) {
+	model = m;
+}
+
+double Bajaj::getMileage() {
+	return mileage;
+}
+void Bajaj::setMileage(double m) {
+	mileage = m;
+}
+double Bajaj::getPrice() {
+	return price;
+}
+void Bajaj::setPrice(double p) {
+	price = p;
+}
+int Bajaj::getNumOfCylinders() {
+	return cylinders;
+}
+void Bajaj::setNumOfCylinders(int c) {
+	cylinders = c;
+}
+int Bajaj::getNumOfGears() {
+	return cylinders;
+}
+void Bajaj::setNumOfGears(int g) {
+	gears = g;
+}
+string Bajaj::getCoolingType() {
+	return cooling;
+}
+void Bajaj::setCoolingType(string c) {
+	cooling = c;
+}
+string Bajaj::getWheelType() {
+	return wheel;
+}
+void Bajaj::setWheelType(string w) {
+	wheel = w;
+}
+int Bajaj::getFuelTankSize() {
+	return fueltanksize;
+}
+void Bajaj::setFuelTankSize(int f) {
+	fueltanksize = f;
+}
+string Bajaj::getMakeType() {
+	return maketype;
+}
+void Bajaj::setMakeType(string m) {
+	maketype = m;
+}
+
+
+double TVS::getMileage() {
+	return mileage;
+}
+void TVS::setMileage(double m) {
+	mileage = m;
+}
+double TVS::getPrice() {
+	return price;
+}
+void TVS::setPrice(double p) {
+	price = p;
+}
+int TVS::getNumOfCylinders() {
+	return cylinders;
+}
+void TVS::setNumOfCylinders(int c) {
+	cylinders = c;
+}
+int TVS::getNumOfGears() {
+	return cylinders;
+}
+void TVS::setNumOfGears(int g) {
+	gears = g;
+}
+string TVS::getCoolingType() {
+	return cooling;
+}
+void TVS::setCoolingType(string c) {
+	cooling = c;
+}
+string TVS::getWheelType() {
+	return wheel;
+}
+void TVS::setWheelType(string w) {
+	wheel = w;
+}
+int TVS::getFuelTankSize() {
+	return fueltanksize;
+}
+void TVS::setFuelTankSize(int f) {
+	fueltanksize = f;
+}
+string TVS::getMakeType() {
+	return maketype;
+}
+void TVS::setMakeType(string m) {
+	maketype = m;
+}
+
+Base::Base(float x, float y) {
+	length = x;
+	width = y;
+}
+float Base::getLength() {
+	return length;
+}
+void Base::setLength(float l) {
+	length = l;
+}
+float Base::getWidth() {
+	return width;
+}
+void Base::setWidth(float w) {
+	width = w;
+}
+
+float Rectangle::getLength() {
+	return length;
+}
+void Rectangle::setLength(float l) {
+	length = l;
+}
+float Rectangle::getWidth() {
+	return width;
+}
+void Rectangle::setWidth(float w) {
+	width = w;
+}
+Rectangle::Rectangle() {
+	length = 0;
+	width = 0;
+}
+Rectangle::Rectangle(float x, float y) {
+	length = x;
+	length = y;
+}
+float Rectangle::areaOfRectangle() {
+	return (length * width);
+}
+
+float Square::getLength() {
+	return length;
+}
+void Square::setLength(float l) {
+	length = l;
+}
+Square::Square() {
+	length = 0;
+	width = 0;
+}
+Square::Square(float x, float y) {
+	length = x;
+	length = y;
+}
+float Square::areaOfSquare() {
+	return (length * length);
+}
+
+float Triangle::getLength() {
+	return length;
+}
+void Triangle::setLength(float l) {
+	length = l;
+}
+float Triangle::getHeight() {
+	return width;
+}
+void Triangle::setHeight(float w) {
+	width = w;
+}
+Triangle::Triangle() {
+	length = 0;
+	width = 0;
+}
+Triangle::Triangle(float x, float y) {
+	length = x;
+	length = y;
+}
+float Triangle::areaOfTriangle() {
+	return (0.5 * length * width);
 }
 
 int main()
 {
-    return 0;
+    Audi a;
+    Ford f;
+    Bajaj b;
+    TVS t;
+    cout << "This is the info of the Audi car: " << endl;
+	cout << a.getMileage() << endl;;
+	cout << a.getPrice() << endl;;
+	cout << a.getCost() << endl;
+	cout << a.getWarranty()<<endl;
+	cout << a.getSeatingCapacity()<<endl;
+	cout << a.getFuelType()<<endl;
+	cout << "This is the info of the Ford car: " << endl;
+	cout << f.getMileage() << endl;;
+	cout << f.getPrice() << endl;;
+	cout << f.getCost() << endl;
+	cout << f.getWarranty() << endl;
+	cout << f.getSeatingCapacity() << endl;
+	cout << f.getFuelType() << endl;
+	cout << "This is the info of the Bajaj bike: " << endl;
+	cout << b.getMileage() << endl;;
+	cout << b.getPrice() << endl;;
+	cout << b.getNumOfCylinders() << endl;
+	cout << b.getNumOfGears() << endl;
+	cout << b.getCoolingType() << endl;
+	cout << b.getWheelType() << endl;
+	cout << b.getFuelTankSize() << endl;
+	cout << "This is the info of the TVS bike: " << endl;
+	cout << t.getMileage() << endl;;
+	cout << t.getPrice() << endl;;
+	cout << t.getNumOfCylinders() << endl;
+	cout << t.getNumOfGears() << endl;
+	cout << t.getCoolingType() << endl;
+	cout << t.getWheelType() << endl;
+	cout << t.getFuelTankSize() << endl;
+	return 0;
 }

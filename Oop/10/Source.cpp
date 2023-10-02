@@ -8,344 +8,336 @@ SE-F
 #include "Header.h"
 using namespace std;
 
-Vehicle::Vehicle() {
-    mileage = 0;
-    price = 0;
-}
+class Point {
+	int X_Coordinate;
+	int Y_Coordinate;
+public:
+	Point() {
+		X_Coordinate = 0;
+		Y_Coordinate = 0;
+	}
+	Point(int x, int y) {
+		X_Coordinate = x;
+		Y_Coordinate = y;
 
-Car::Car() {
-    cost = 0.0;
-    warranty = 0;
-    seating = 0;
-    fueltype = "";
-}
+	}
+	Point(const Point& p) {
+		this->X_Coordinate = p.X_Coordinate;
+		this->Y_Coordinate = p.Y_Coordinate;
+	}
+	int getX_Coordinate() const {
+		return X_Coordinate;
+	}
+	int getY_Coordinate() const {
+		return Y_Coordinate;
+	}
+};
 
-Bike::Bike() {
-    cylinders = 0;
-    gears = 0;
-    cooling = "";
-    wheel = "";
-    fueltanksize = 0;
-}
+class Line {
+	Point Point_1;
+	Point Point_2;
+public:
+	Line() :Point_1(4, 6), Point_2(2, 4) {
 
-Audi::Audi() {
-    model = "";
-}
+	}
+	Line(int x1, int y1, int x2, int y2) : Point_1(x1, y1), Point_2(x2, y2) {
 
-Ford::Ford() {
-    model = "";
-}
+	}
+	Line(const Point& p1, const Point& p2) : Point_1(p1.getX_Coordinate(), p1.getY_Coordinate()), Point_2(p2.getX_Coordinate(), p2.getY_Coordinate()) {
 
-Bajaj::Bajaj() {
-    maketype = "";
-}
-TVS::TVS() {
-    maketype = "";
-}
+	}
+	float findSlope() {
+		return ((Point_2.getY_Coordinate() - Point_1.getY_Coordinate()) / (Point_2.getX_Coordinate() - Point_1.getX_Coordinate()));
+	}
+	float findLength() {
+		int temp;
+		temp = pow((Point_2.getX_Coordinate() - Point_1.getX_Coordinate()), 2) + pow((Point_2.getY_Coordinate() - Point_1.getY_Coordinate()), 2);
+		temp = sqrt(temp);
+		return temp;
+	}
+	Point& findMidPoint() {
+		Point* ptr = new Point((Point_1.getX_Coordinate() + Point_2.getX_Coordinate()) / 2, (Point_1.getY_Coordinate() + Point_2.getY_Coordinate()) / 2);
+		return *ptr;
+	}
+};
 
-double Audi::getMileage() {
-	return mileage;
-}
-void Audi::setMileage(double m) {
-	mileage = m;
-}
-double Audi::getPrice() {
-	return price;
-}
-void Audi::setPrice(double p) {
-	price = p;
-}
-double Audi::getCost() {
-	return cost;
-}
-void Audi::setCost(double c) {
-	cost = c;
-}
-double Audi::getWarranty() {
-	return warranty;
-}
-void Audi::setWarranty(int w) {
-	warranty = w;
-}
-int Audi::getSeatingCapacity() {
-	return mileage;
-}
-void Audi::setSeatingCapacity(int c) {
-	seating = c;
-}
-string Audi::getFuelType() {
-	return fueltype;
-}
-void Audi::setFuelType(string f) {
-	fueltype = f;
-}
-string Audi::getModel() {
-	return model;
-}
-void Audi::setModel(string m) {
-	model = m;
-}
+class Car {
+	string make;
+	string carModel;
+	string regNo;
+	int year;
+public:
+	Car() {
+		make = "";
+		carModel = "";
+		regNo = "";
+		year = 0;
+	}
+	Car(string m, string c, string r, int y) {
+		make = m;
+		carModel = c;
+		regNo = r;
+		year = 0;
+	}
+	string getMake() {
+		return make;
+	}
+	string getCarModel() {
+		return carModel;
+	}
+	string getRegNo() {
+		return regNo;
+	}
+	int getYear() {
+		return year;
+	}
+	void setMake(string m) {
+		make = m;
+	}
+	void setCarModel(string m) {
+		carModel = m;
+	}
+	void setRegNo(string r) {
+		regNo = r;
+	}
+	void setYear(int y) {
+		year = y;
+	}
+};
 
-double Ford::getMileage() {
-	return mileage;
-}
-void Ford::setMileage(double m) {
-	mileage = m;
-}
-double Ford::getPrice() {
-	return price;
-}
-void Ford::setPrice(double p) {
-	price = p;
-}
-double Ford::getCost() {
-	return cost;
-}
-void Ford::setCost(double c) {
-	cost = c;
-}
-double Ford::getWarranty() {
-	return warranty;
-}
-void Ford::setWarranty(int w) {
-	warranty = w;
-}
-int Ford::getSeatingCapacity() {
-	return mileage;
-}
-void Ford::setSeatingCapacity(int c) {
-	seating = c;
-}
-string Ford::getFuelType() {
-	return fueltype;
-}
-void Ford::setFuelType(string f) {
-	fueltype = f;
-}
-string Ford::getModel() {
-	return model;
-}
-void Ford::setModel(string m) {
-	model = m;
-}
+class Garage {
+	string name;
+	int index;
+	int capacity;
+	Car* arr;
+	Garage() {
+		name = "";
+		index = 0;
+		capacity = 10;
+		arr = new Car[capacity];
+	}
+	Garage(string n, int i, int c) {
+		name = n;
+		index = i;
+		capacity = c;
+		arr = new Car[capacity];
+	}
+	bool IsEmpty() {
+		if (index == 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	bool IsFull() {
+		if (index == capacity) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	bool Push(Car c) {
+		if (index != capacity) {
+			index++;
+			arr[index - 1].setCarModel(c.getCarModel());
+			arr[index - 1].setMake(c.getMake());
+			arr[index - 1].setRegNo(c.getRegNo());
+			arr[index - 1].setYear(c.getYear());
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	bool Find(string reg) {
+		for (int i; i < capacity; i++) {
+			if (arr[i].getRegNo() == reg) {
+				return true;
+			}
+		}
+		return false;
+	}
+	bool Remove(string reg) {
+		for (int i; i < capacity; i++) {
+			if (arr[i].getRegNo() == reg) {
+				index = index - 1;
+				arr[i].setMake("");
+				arr[i].setCarModel("");
+				arr[i].setRegNo("");
+				arr[i].setYear(0);
+				return true;
+			}
+		}
+		return false;
+	}
+};
 
-double Bajaj::getMileage() {
-	return mileage;
-}
-void Bajaj::setMileage(double m) {
-	mileage = m;
-}
-double Bajaj::getPrice() {
-	return price;
-}
-void Bajaj::setPrice(double p) {
-	price = p;
-}
-int Bajaj::getNumOfCylinders() {
-	return cylinders;
-}
-void Bajaj::setNumOfCylinders(int c) {
-	cylinders = c;
-}
-int Bajaj::getNumOfGears() {
-	return cylinders;
-}
-void Bajaj::setNumOfGears(int g) {
-	gears = g;
-}
-string Bajaj::getCoolingType() {
-	return cooling;
-}
-void Bajaj::setCoolingType(string c) {
-	cooling = c;
-}
-string Bajaj::getWheelType() {
-	return wheel;
-}
-void Bajaj::setWheelType(string w) {
-	wheel = w;
-}
-int Bajaj::getFuelTankSize() {
-	return fueltanksize;
-}
-void Bajaj::setFuelTankSize(int f) {
-	fueltanksize = f;
-}
-string Bajaj::getMakeType() {
-	return maketype;
-}
-void Bajaj::setMakeType(string m) {
-	maketype = m;
-}
+class Professor {
+	string name;
+	int employeeID;
+	string designation;
+public:
+	Professor() {
+		name = "";
+		employeeID = 0;
+		designation = "";
+	}
+	Professor(string n, int id, string des) {
+		name = n;
+		employeeID = id;
+		designation = des;
+	}
+	string getName() {
+		return name;
+
+	}
+	int getEmployeeID() {
+		return employeeID;
+
+	}
+	string getDesignation() {
+		return designation;
 
 
-double TVS::getMileage() {
-	return mileage;
-}
-void TVS::setMileage(double m) {
-	mileage = m;
-}
-double TVS::getPrice() {
-	return price;
-}
-void TVS::setPrice(double p) {
-	price = p;
-}
-int TVS::getNumOfCylinders() {
-	return cylinders;
-}
-void TVS::setNumOfCylinders(int c) {
-	cylinders = c;
-}
-int TVS::getNumOfGears() {
-	return cylinders;
-}
-void TVS::setNumOfGears(int g) {
-	gears = g;
-}
-string TVS::getCoolingType() {
-	return cooling;
-}
-void TVS::setCoolingType(string c) {
-	cooling = c;
-}
-string TVS::getWheelType() {
-	return wheel;
-}
-void TVS::setWheelType(string w) {
-	wheel = w;
-}
-int TVS::getFuelTankSize() {
-	return fueltanksize;
-}
-void TVS::setFuelTankSize(int f) {
-	fueltanksize = f;
-}
-string TVS::getMakeType() {
-	return maketype;
-}
-void TVS::setMakeType(string m) {
-	maketype = m;
-}
+	}
+	void setName(string n) {
+		name = n;
 
-Base::Base(float x, float y) {
-	length = x;
-	width = y;
-}
-float Base::getLength() {
-	return length;
-}
-void Base::setLength(float l) {
-	length = l;
-}
-float Base::getWidth() {
-	return width;
-}
-void Base::setWidth(float w) {
-	width = w;
-}
+	}
+	void setEmployeeID(int id) {
+		employeeID = id;
 
-float Rectangle::getLength() {
-	return length;
-}
-void Rectangle::setLength(float l) {
-	length = l;
-}
-float Rectangle::getWidth() {
-	return width;
-}
-void Rectangle::setWidth(float w) {
-	width = w;
-}
-Rectangle::Rectangle() {
-	length = 0;
-	width = 0;
-}
-Rectangle::Rectangle(float x, float y) {
-	length = x;
-	length = y;
-}
-float Rectangle::areaOfRectangle() {
-	return (length * width);
-}
+	}
+	void setDesignation(string d) {
+		designation = d;
+	}
+};
 
-float Square::getLength() {
-	return length;
-}
-void Square::setLength(float l) {
-	length = l;
-}
-Square::Square() {
-	length = 0;
-	width = 0;
-}
-Square::Square(float x, float y) {
-	length = x;
-	length = y;
-}
-float Square::areaOfSquare() {
-	return (length * length);
-}
+class Department {
+	string name;
+	int deptID;
+	Professor* profList;
+	int noOfProfessors;
+public:
+	Department() {
+		name = "";
+		deptID = 0;
+		noOfProfessors = 0;
+		profList = new Professor[noOfProfessors];
+	}
+	Department(string n, int id, int no) {
+		name = n;
+		deptID = id;
+		noOfProfessors = no;
+		profList = new Professor[noOfProfessors];
+	}
+	string getName() {
+		return name;
 
-float Triangle::getLength() {
-	return length;
-}
-void Triangle::setLength(float l) {
-	length = l;
-}
-float Triangle::getHeight() {
-	return width;
-}
-void Triangle::setHeight(float w) {
-	width = w;
-}
-Triangle::Triangle() {
-	length = 0;
-	width = 0;
-}
-Triangle::Triangle(float x, float y) {
-	length = x;
-	length = y;
-}
-float Triangle::areaOfTriangle() {
-	return (0.5 * length * width);
-}
+	}
+	Professor getProf() {
+		return *profList;
+	}
+	int getDeptID() {
+		return deptID;
+	}
+	int getNoOfProf() {
+		return noOfProfessors;
+	}
+	void setName(string n) {
+		name = n;
+
+	}
+	void setDeptID(int id) {
+		deptID = id;
+
+	}
+	void setProf(Professor f, int i) {
+		profList[i] = f;
+	}
+	void setNoOfProf(int no) {
+		noOfProfessors = no;
+	}
+};
+
+class University {
+	string name;
+	Department* dept;
+	int noOfDept;
+public:
+	University() {
+		name = "";
+		noOfDept = 0;
+		dept = new Department[noOfDept];
+	}
+	University(string n, int no) {
+		name = n;
+		noOfDept = no;
+		dept = new Department[noOfDept];
+	}
+	string getName() {
+		return name;
+
+	}
+	Department getDept() {
+		return *dept;
+
+	}
+	int getNoOfDept() {
+		return noOfDept;
+	}
+	void setName(string n) {
+		name = n;
+
+	}
+	void setDept(Department id, int i) {
+		dept[i] = id;
+
+	}
+	void setNoOfDept(int d) {
+		noOfDept = d;
+	}
+	bool addDepartment(Department D) {
+		for (int i = 0; i < noOfDept; i++) {
+			if (dept[i].getName() == "") {
+				dept[i + 1].setName(D.getName());
+				dept[i + 1].setDeptID(D.getDeptID());
+				dept[i + 1].setNoOfProf(D.getNoOfProf());
+				return true;
+			}
+		}
+		return false;
+	}
+	bool deleteDepartment(string name) {
+		for (int i = 0; i < noOfDept; i++) {
+			if (dept[i].getName() == name) {
+				dept[i].setName("");
+				dept[i].setDeptID(0);
+				dept[i].setNoOfProf(0);
+				return true;
+			}
+		}
+		return false;
+	}
+	bool updateDepartment(int id, string name) {
+		for (int i = 0; i < noOfDept; i++) {
+			if (dept[i].getName() == name && dept[i].getDeptID() == id) {
+				dept[i].setName(name);
+				dept[i].setDeptID(id);
+				return true;
+			}
+		}
+		return false;
+	}
+	void Display() {
+
+	}
+};
 
 int main()
 {
-    Audi a;
-    Ford f;
-    Bajaj b;
-    TVS t;
-    cout << "This is the info of the Audi car: " << endl;
-	cout << a.getMileage() << endl;;
-	cout << a.getPrice() << endl;;
-	cout << a.getCost() << endl;
-	cout << a.getWarranty()<<endl;
-	cout << a.getSeatingCapacity()<<endl;
-	cout << a.getFuelType()<<endl;
-	cout << "This is the info of the Ford car: " << endl;
-	cout << f.getMileage() << endl;;
-	cout << f.getPrice() << endl;;
-	cout << f.getCost() << endl;
-	cout << f.getWarranty() << endl;
-	cout << f.getSeatingCapacity() << endl;
-	cout << f.getFuelType() << endl;
-	cout << "This is the info of the Bajaj bike: " << endl;
-	cout << b.getMileage() << endl;;
-	cout << b.getPrice() << endl;;
-	cout << b.getNumOfCylinders() << endl;
-	cout << b.getNumOfGears() << endl;
-	cout << b.getCoolingType() << endl;
-	cout << b.getWheelType() << endl;
-	cout << b.getFuelTankSize() << endl;
-	cout << "This is the info of the TVS bike: " << endl;
-	cout << t.getMileage() << endl;;
-	cout << t.getPrice() << endl;;
-	cout << t.getNumOfCylinders() << endl;
-	cout << t.getNumOfGears() << endl;
-	cout << t.getCoolingType() << endl;
-	cout << t.getWheelType() << endl;
-	cout << t.getFuelTankSize() << endl;
-	return 0;
+
+    return 0;
 }

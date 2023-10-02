@@ -1,167 +1,242 @@
 #pragma once
+
 #include <iostream>
 #include "Header.h"
+#include <cmath>
 using namespace std;
 
-class Vehicle {
-protected:
-	double mileage;
-	double price;
+class Point {
+	int X_Coordinate;
+	int Y_Coordinate;
 public:
-	Vehicle();
+	Point() {
+	}
+	Point(int x, int y) {
+
+	}
+	Point(const Point& p) {
+	}
+	int getX_Coordinate() const {
+	}
+	int getY_Coordinate() const {
+	}
 };
 
-class Car :public Vehicle {
-protected:
-	double cost;
-	int warranty;
-	int seating;
-	string fueltype;
+class Line {
+	Point Point_1;
+	Point Point_2;
 public:
-	Car();
+	Line() :Point_1(4, 6), Point_2(2, 4) {
+
+	}
+	Line(int x1, int y1, int x2, int y2) : Point_1(x1, y1), Point_2(x2, y2) {
+
+	}
+	Line(const Point& p1, const Point& p2) : Point_1(p1.getX_Coordinate(), p1.getY_Coordinate()), Point_2(p2.getX_Coordinate(), p2.getY_Coordinate()) {
+
+	}
+	float findSlope() {
+		
+	}
+	float findLength() {
+		
+	}
+	Point& findMidPoint() {
+		
+	}
 };
 
-class Bike :public Vehicle {
-protected:
-	int cylinders;
-	int gears;
-	string cooling;
-	string wheel;
-	int fueltanksize;
+class Car {
+	string make;
+	string carModel;
+	string regNo;
+	int year;
 public:
-	Bike();
+	Car() {
+		
+	}
+	Car(string m, string c, string r, int y) {
+		
+	}
+	string getMake(){
+		
+	}
+	string getCarModel() {
+		
+	}
+	string getRegNo() {
+		
+	}
+	int getYear() {
+		
+	}
+	void setMake(string m) {
+		
+	}
+	void setCarModel(string m) {
+		
+	}
+	void setRegNo(string r) {
+		
+	}
+	void setYear(int y) {
+		
+	}
 };
 
-class Audi :public Car {
-protected:
-	string model;
+class Garage {
+	string name;
+	int index;
+	int capacity;
+	Car *arr;
+	Garage() {
+
+	}
+	Garage(string n, int i, int c) {
+
+	}
+	bool IsEmpty() {
+
+	}
+	bool IsFull() {
+		
+	}
+	bool Push(Car c) {
+		
+	}
+	bool Find(string reg) {
+		
+	}
+	bool Remove(string reg) {
+		
+	}
+};
+
+class Professor {
+	string name;
+	int employeeID;
+	string designation;
 public:
-	Audi();
-	double getMileage();
-	void setMileage(double m);
-	double getPrice();
-	void setPrice(double p);
-	double getCost();
-	void setCost(double c);
-	double getWarranty();
-	void setWarranty(int w);
-	int getSeatingCapacity();
-	void setSeatingCapacity(int c);
-	string getFuelType();
-	void setFuelType(string f);
-	string getModel();
-	void setModel(string m);
+	Professor() {
+		
+	}
+	Professor(string n, int id, string des){
+		
+	}
+	string getName() {
+		
+
+	}
+	int getEmployeeID() {
+		
+
+	}
+	string getDesignation() {
+		
+
+
+	}
+	void setName(string n) {
+		
+
+	}
+	void setEmployeeID(int id) {
+		
+
+	}
+	void setDesignation(string d) {
+		
+	}
 };
 
-class Ford :public Car {
-protected:
-	string model;
+class Department {
+	string name;
+	int deptID;
+	Professor* profList;
+	int noOfProfessors;
 public:
-	Ford();
-	double getMileage();
-	void setMileage(double m);
-	double getPrice();
-	void setPrice(double p);
-	double getCost();
-	void setCost(double c);
-	double getWarranty();
-	void setWarranty(int w);
-	int getSeatingCapacity();
-	void setSeatingCapacity(int c);
-	string getFuelType();
-	void setFuelType(string f);
-	string getModel();
-	void setModel(string m);
+	Department() {
+		
+	}
+	Department(string n, int id, int no) {
+		
+	}
+	string getName() {
+		
 
+	}
+	Professor getProf() {
+		
+	}
+	int getDeptID() {
+		
+	}
+	int getNoOfProf() {
+		
+	}
+	void setName(string n) {
+		
+
+	}
+	void setDeptID(int id) {
+		
+
+	}
+	void setProf(Professor f, int i) {
+		
+	}
+	void setNoOfProf(int no) {
+		
+	}
 };
 
-class Bajaj :public Bike {
-protected:
-	string maketype;
+class University {
+	string name;
+	Department *dept;
+	int noOfDept;
 public:
-	Bajaj();
-	double getMileage();
-	void setMileage(double m);
-	double getPrice();
-	void setPrice(double p);
-	int getNumOfCylinders();
-	void setNumOfCylinders(int c);
-	int getNumOfGears();
-	void setNumOfGears(int g);
-	string getCoolingType();
-	void setCoolingType(string c);
-	string getWheelType();
-	void setWheelType(string w);
-	int getFuelTankSize();
-	void setFuelTankSize(int f);
-	string getMakeType();
-	void setMakeType(string m);
+	University() {
+		
+	}
+	University(string n, int no) {
+		
+	}
+	string getName() {
+		
 
+	}
+	Department getDept() {
+		
+
+	}
+	int getNoOfDept() {
+		
+	}
+	void setName(string n) {
+		
+
+	}
+	void setDept(Department id, int i) {
+		
+
+	}
+	void setNoOfDept(int d) {
+		
+	}
+	bool addDepartment(Department D) {
+		
+	}
+	bool deleteDepartment(string name) {
+		
+	}
+	bool updateDepartment(int id, string name) {
+		
+	}
+	void Display() {
+
+	}
+	bool addProfessor(Professor p);
+	bool deleteProfessor(int id);
+	bool updateProfessor(int id, string newDesignation);
+	void Display();
 };
-
-class TVS :public Bike {
-protected:
-	string maketype;
-public:
-	TVS();
-	double getMileage();
-	void setMileage(double m);
-	double getPrice();
-	void setPrice(double p);
-	int getNumOfCylinders();
-	void setNumOfCylinders(int c);
-	int getNumOfGears();
-	void setNumOfGears(int g);
-	string getCoolingType();
-	void setCoolingType(string c);
-	string getWheelType();
-	void setWheelType(string w);
-	int getFuelTankSize();
-	void setFuelTankSize(int f);
-	string getMakeType();
-	void setMakeType(string m);
-};
-
-class Base {
-protected:
-	float length;
-	float width;
-public:
-	Base();
-	Base(float x, float y);
-	float getLength();
-	void setLength(float l);
-	float getWidth();
-	void setWidth (float l);
-};
-
-class Rectangle :public Base {
-	Rectangle();
-	Rectangle(float, float);
-	float getLength();
-	void setLength(float l);
-	float getWidth();
-	void setWidth(float l);
-	float areaOfRectangle();
-};
-
-class Square :public Base {
-	Square();
-	Square(float, float);
-	float getLength();
-	void setLength(float l);
-	float areaOfSquare();
-};
-
-class Triangle :public Base {
-	Triangle();
-	Triangle(float, float);
-	float getLength();
-	void setLength(float l);
-	float getHeight();
-	void setHeight(float l);
-	float areaOfTriangle();
-};
-
-
-

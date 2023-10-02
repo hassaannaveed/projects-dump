@@ -1,343 +1,248 @@
-/*
-Hassaan Naveed
-22i-0557
-SE-F
-*/
-
 #include <iostream>
-#include "Header.h"
+#include <fstream>
+#include <string>
 using namespace std;
-
-class Point {
-	int X_Coordinate;
-	int Y_Coordinate;
-public:
-	Point() {
-		X_Coordinate = 0;
-		Y_Coordinate = 0;
-	}
-	Point(int x, int y) {
-		X_Coordinate = x;
-		Y_Coordinate = y;
-
-	}
-	Point(const Point& p) {
-		this->X_Coordinate = p.X_Coordinate;
-		this->Y_Coordinate = p.Y_Coordinate;
-	}
-	int getX_Coordinate() const {
-		return X_Coordinate;
-	}
-	int getY_Coordinate() const {
-		return Y_Coordinate;
-	}
+struct record
+{
+	int regno = 0;
+	string fullname;
+	string program;
+	string contact;
 };
 
-class Line {
-	Point Point_1;
-	Point Point_2;
-public:
-	Line() :Point_1(4, 6), Point_2(2, 4) {
+void input() {
+	string topic, content;
+	int count = 0;
 
-	}
-	Line(int x1, int y1, int x2, int y2) : Point_1(x1, y1), Point_2(x2, y2) {
+	cout << "Enter a topic: ";
+	getline(cin, topic);
 
+	cout << "Enter at least 10 lines: "<< endl;
+	ofstream fs("info.txt", ios::binary);
+	if (fs.is_open() == 0)
+	{
+		cout << "Cannot open file" << endl;
 	}
-	Line(const Point& p1, const Point& p2) : Point_1(p1.getX_Coordinate(), p1.getY_Coordinate()), Point_2(p2.getX_Coordinate(), p2.getY_Coordinate()) {
+	else {
+		fs.write((char*)&topic, sizeof(topic));
+		while (count < 10) {
+			getline(cin, content);
+			fs.write((char*)&content, sizeof(content));
+			count++;
+		}
+		fs.close();
+	}
+}
 
+void output() {
+	ifstream fs("info.txt", ios::binary);
+	if (fs.is_open() == 0)
+	{
+		cout << "Cannot open file" << endl;
 	}
-	float findSlope() {
-		return ((Point_2.getY_Coordinate() - Point_1.getY_Coordinate()) / (Point_2.getX_Coordinate() - Point_1.getX_Coordinate()));
-	}
-	float findLength() {
-		int temp;
-		temp = pow((Point_2.getX_Coordinate() - Point_1.getX_Coordinate()), 2) + pow((Point_2.getY_Coordinate() - Point_1.getY_Coordinate()), 2);
-		temp = sqrt(temp);
-		return temp;
-	}
-	Point& findMidPoint() {
-		Point* ptr = new Point((Point_1.getX_Coordinate() + Point_2.getX_Coordinate()) / 2, (Point_1.getY_Coordinate() + Point_2.getY_Coordinate()) / 2);
-		return *ptr;
-	}
-};
+	else {
+		string topic, content;
+		int count = 0;
+		int less = 0;
 
-class Car {
-	string make;
-	string carModel;
-	string regNo;
-	int year;
-public:
-	Car() {
-		make = "";
-		carModel = "";
-		regNo = "";
-		year = 0;
-	}
-	Car(string m, string c, string r, int y) {
-		make = m;
-		carModel = c;
-		regNo = r;
-		year = 0;
-	}
-	string getMake() {
-		return make;
-	}
-	string getCarModel() {
-		return carModel;
-	}
-	string getRegNo() {
-		return regNo;
-	}
-	int getYear() {
-		return year;
-	}
-	void setMake(string m) {
-		make = m;
-	}
-	void setCarModel(string m) {
-		carModel = m;
-	}
-	void setRegNo(string r) {
-		regNo = r;
-	}
-	void setYear(int y) {
-		year = y;
-	}
-};
-
-class Garage {
-	string name;
-	int index;
-	int capacity;
-	Car* arr;
-	Garage() {
-		name = "";
-		index = 0;
-		capacity = 10;
-		arr = new Car[capacity];
-	}
-	Garage(string n, int i, int c) {
-		name = n;
-		index = i;
-		capacity = c;
-		arr = new Car[capacity];
-	}
-	bool IsEmpty() {
-		if (index == 0) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	bool IsFull() {
-		if (index == capacity) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	bool Push(Car c) {
-		if (index != capacity) {
-			index++;
-			arr[index - 1].setCarModel(c.getCarModel());
-			arr[index - 1].setMake(c.getMake());
-			arr[index - 1].setRegNo(c.getRegNo());
-			arr[index - 1].setYear(c.getYear());
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	bool Find(string reg) {
-		for (int i; i < capacity; i++) {
-			if (arr[i].getRegNo() == reg) {
-				return true;
+		fs.read((char*)&topic, sizeof(topic));
+		while (fs.read((char*)&content, sizeof(content))) {
+			count++;
+			int words = 0;
+			for (int i = 0; i < content.length(); i++) {
+				if (content[i] == ' ') {
+					words++;
+				}
+			}
+			if (words < 10) {
+				less++;
 			}
 		}
-		return false;
-	}
-	bool Remove(string reg) {
-		for (int i; i < capacity; i++) {
-			if (arr[i].getRegNo() == reg) {
-				index = index - 1;
-				arr[i].setMake("");
-				arr[i].setCarModel("");
-				arr[i].setRegNo("");
-				arr[i].setYear(0);
-				return true;
-			}
-		}
-		return false;
-	}
-};
 
-class Professor {
-	string name;
-	int employeeID;
-	string designation;
+		cout << "Topic: " << topic << endl;
+		cout << "Number of lines with less than 10 words: " << less<< endl;
+
+		fs.close();
+	}
+}
+
+class PhoneDirectory {
+private:
+	string fullname;
+	string phonenumber;
+	string email;
+
 public:
-	Professor() {
-		name = "";
-		employeeID = 0;
-		designation = "";
+	PhoneDirectory() {
+		fullname = "";
+		phonenumber = "";
+		email = "";
 	}
-	Professor(string n, int id, string des) {
-		name = n;
-		employeeID = id;
-		designation = des;
-	}
-	string getName() {
-		return name;
 
+	void setFullName(string name) {
+		fullname = name;
 	}
-	int getEmployeeID() {
-		return employeeID;
-
+	void setPhoneNumber(string num) {
+		phonenumber = num;
 	}
-	string getDesignation() {
-		return designation;
-
-
+	void setEmail(string e) {
+		email = e;
 	}
-	void setName(string n) {
-		name = n;
-
+	string getFullName() {
+		return fullname;
 	}
-	void setEmployeeID(int id) {
-		employeeID = id;
-
+	string getPhoneNumber() {
+		return phonenumber;
 	}
-	void setDesignation(string d) {
-		designation = d;
+	string getEmail() {
+		return email;
 	}
 };
 
-class Department {
-	string name;
-	int deptID;
-	Professor* profList;
-	int noOfProfessors;
-public:
-	Department() {
-		name = "";
-		deptID = 0;
-		noOfProfessors = 0;
-		profList = new Professor[noOfProfessors];
+void writeToFile(PhoneDirectory pd) {
+	ofstream fs;
+	fs.open("phonedir.txt", ios::app | ios::binary);
+	if (fs.is_open() == 0)
+	{
+		cout << "Cannot open file" << endl;
+		return;
 	}
-	Department(string n, int id, int no) {
-		name = n;
-		deptID = id;
-		noOfProfessors = no;
-		profList = new Professor[noOfProfessors];
-	}
-	string getName() {
-		return name;
 
-	}
-	Professor getProf() {
-		return *profList;
-	}
-	int getDeptID() {
-		return deptID;
-	}
-	int getNoOfProf() {
-		return noOfProfessors;
-	}
-	void setName(string n) {
-		name = n;
+	fs.write((char*)&pd, sizeof(pd));
+	fs.close();
+}
 
+void searchByName(string name) {
+	ifstream fs;
+	fs.open("phonedir.txt", ios::in | ios::binary);
+	if (fs.is_open() == 0)
+	{
+		cout << "Cannot open file" << endl;
+		return;
 	}
-	void setDeptID(int id) {
-		deptID = id;
 
-	}
-	void setProf(Professor f, int i) {
-		profList[i] = f;
-	}
-	void setNoOfProf(int no) {
-		noOfProfessors = no;
-	}
-};
-
-class University {
-	string name;
-	Department* dept;
-	int noOfDept;
-public:
-	University() {
-		name = "";
-		noOfDept = 0;
-		dept = new Department[noOfDept];
-	}
-	University(string n, int no) {
-		name = n;
-		noOfDept = no;
-		dept = new Department[noOfDept];
-	}
-	string getName() {
-		return name;
-
-	}
-	Department getDept() {
-		return *dept;
-
-	}
-	int getNoOfDept() {
-		return noOfDept;
-	}
-	void setName(string n) {
-		name = n;
-
-	}
-	void setDept(Department id, int i) {
-		dept[i] = id;
-
-	}
-	void setNoOfDept(int d) {
-		noOfDept = d;
-	}
-	bool addDepartment(Department D) {
-		for (int i = 0; i < noOfDept; i++) {
-			if (dept[i].getName() == "") {
-				dept[i + 1].setName(D.getName());
-				dept[i + 1].setDeptID(D.getDeptID());
-				dept[i + 1].setNoOfProf(D.getNoOfProf());
-				return true;
-			}
+	PhoneDirectory pd;
+	bool found = false;
+	while (fs.read((char*)&pd, sizeof(pd))) {
+		if (pd.getFullName() == name) {
+			cout << "Phone number of " << name << " is " << pd.getPhoneNumber() << endl;
+			found = true;
+			break;
 		}
-		return false;
 	}
-	bool deleteDepartment(string name) {
-		for (int i = 0; i < noOfDept; i++) {
-			if (dept[i].getName() == name) {
-				dept[i].setName("");
-				dept[i].setDeptID(0);
-				dept[i].setNoOfProf(0);
-				return true;
-			}
-		}
-		return false;
-	}
-	bool updateDepartment(int id, string name) {
-		for (int i = 0; i < noOfDept; i++) {
-			if (dept[i].getName() == name && dept[i].getDeptID() == id) {
-				dept[i].setName(name);
-				dept[i].setDeptID(id);
-				return true;
-			}
-		}
-		return false;
-	}
-	void Display() {
 
+	if (!found) {
+		cout << "Record not found!" << endl;
 	}
-};
+
+	fs.close();
+}
+
+void searchByEmail(string email) {
+	ifstream fs;
+	fs.open("phonedir.txt", ios::in | ios::binary);
+	if (fs.is_open() == 0)
+	{
+		cout << "Cannot open file" << endl;
+		return;
+	}
+
+	PhoneDirectory pd;
+	bool found = false;
+	while (fs.read((char*)&pd, sizeof(pd))) {
+		if (pd.getEmail() == email) {
+			cout << "Phone number of the person holding email address " << email << " is " << pd.getPhoneNumber() << endl;
+			found = true;
+			break;
+		}
+	}
+
+	if (!found) {
+		cout << "Record not found!" << endl;
+	}
+
+	fs.close();
+}
+
+void printDirectory() {
+	ifstream fs;
+	fs.open("phonedir.txt", ios::in | ios::binary);
+	if (fs.is_open() == 0)
+	{
+		cout << "Cannot open file" << endl;
+		return;
+	}
+
+	PhoneDirectory pd;
+	while (fs.read((char*)&pd, sizeof(pd))) {
+		cout << "Full Name: " << pd.getFullName() << endl;
+		cout << "Phone Number: " << pd.getPhoneNumber() << endl;
+		cout << "Email: " << pd.getEmail() << endl << endl;
+	}
+
+	fs.close();
+}
 
 int main()
 {
+	record student[10];
+	for (int i = 0; i < 10; i++) {
+		string temp;
+		cout << "Enter the data of Student " << i + 1 << " :"<<endl;
+		cout << "Reg No: ";
+		cin >> student[i].regno;
+		cout << "Full Name: ";
+		cin >> student[i].fullname;
+		cout << "Program: ";
+		cin >> student[i].program;
+		cout << "Contact: ";
+		cin >> student[i].contact;
+	}
+	fstream fs;
+	fs.open("Record.txt", ios::binary | ios::out);
+	if (fs.is_open() == 0)
+	{
+		cout << "Cannot open file"<<endl;
+	}
+	else
+	{
+		// writing a structure to binary file
+		fs.write((char*)&student, sizeof(student));
+	}
+	fs.close();
+	fs.open("Record.txt", ios::binary | ios::in);
+	if (fs.is_open() == 0)
+	{
+		cout << "Cannot open file"<<endl;
+	}
+	else
+	{
+		cout << "Printing the sturcture" << endl;
+		for (int i = 0; i < 10; i++) {
+			cout << "Student " << i + 1 << endl;
+			cout << "regno=" << student[i].regno << endl;
+			cout << "Full Name=" << student[i].fullname << endl;
+			cout << "Program=" << student[i].program << endl;
+			cout << "Contact=" << student[i].contact << endl;
+		}
+	}
+	fs.close();
+	input();
+	output();
+	PhoneDirectory pd1;
+	pd1.setFullName("ahbfbja");
+	pd1.setPhoneNumber("127890");
+	pd1.setEmail("fwfwngwg");
+	writeToFile(pd1);
 
-    return 0;
+	PhoneDirectory pd2;
+	pd2.setFullName("JNCbe");
+	pd2.setPhoneNumber("43534535");
+	pd2.setEmail("dsniwunfwi");
+	writeToFile(pd2);
+
+	searchByName("wfbewkf");
+	searchByEmail("fwefbwhbf");
+	printDirectory();
+	return 0;
 }

@@ -1,248 +1,165 @@
+/*
+Hassaan Naveed
+22i-0557
+SE-F
+*/
+
 #include <iostream>
-#include <fstream>
-#include <string>
+#include <vector>
 using namespace std;
-struct record
-{
-	int regno = 0;
-	string fullname;
-	string program;
-	string contact;
-};
 
-void input() {
-	string topic, content;
-	int count = 0;
-
-	cout << "Enter a topic: ";
-	getline(cin, topic);
-
-	cout << "Enter at least 10 lines: "<< endl;
-	ofstream fs("info.txt", ios::binary);
-	if (fs.is_open() == 0)
-	{
-		cout << "Cannot open file" << endl;
-	}
-	else {
-		fs.write((char*)&topic, sizeof(topic));
-		while (count < 10) {
-			getline(cin, content);
-			fs.write((char*)&content, sizeof(content));
-			count++;
-		}
-		fs.close();
-	}
-}
-
-void output() {
-	ifstream fs("info.txt", ios::binary);
-	if (fs.is_open() == 0)
-	{
-		cout << "Cannot open file" << endl;
-	}
-	else {
-		string topic, content;
-		int count = 0;
-		int less = 0;
-
-		fs.read((char*)&topic, sizeof(topic));
-		while (fs.read((char*)&content, sizeof(content))) {
-			count++;
-			int words = 0;
-			for (int i = 0; i < content.length(); i++) {
-				if (content[i] == ' ') {
-					words++;
-				}
-			}
-			if (words < 10) {
-				less++;
-			}
-		}
-
-		cout << "Topic: " << topic << endl;
-		cout << "Number of lines with less than 10 words: " << less<< endl;
-
-		fs.close();
-	}
-}
-
-class PhoneDirectory {
-private:
-	string fullname;
-	string phonenumber;
-	string email;
-
+class CarPark {
+    string regNo;
+    string arrival;
+    int slot;
 public:
-	PhoneDirectory() {
-		fullname = "";
-		phonenumber = "";
-		email = "";
+    CarPark() {
+        regNo = "";
+        arrival = "";
+        slot = -1;
+    }
+    CarPark(string regNo, string arrival, int slot) {
+		this->regNo = regNo;
+		this->arrival = arrival;
+		this->slot = slot;
 	}
-
-	void setFullName(string name) {
-		fullname = name;
+    string getRegNo() const {
+		return regNo;
 	}
-	void setPhoneNumber(string num) {
-		phonenumber = num;
+    void setRegNo(string regNo) {
+		this->regNo = regNo;
 	}
-	void setEmail(string e) {
-		email = e;
+    string getArrival() const {
+		return arrival;
 	}
-	string getFullName() {
-		return fullname;
+    void setArrival(string arrival) {
+		this->arrival = arrival;
 	}
-	string getPhoneNumber() {
-		return phonenumber;
+    int getSlot() const {
+		return slot;
 	}
-	string getEmail() {
-		return email;
+    void setSlot(int slot) {
+		this->slot = slot;
 	}
 };
 
-void writeToFile(PhoneDirectory pd) {
-	ofstream fs;
-	fs.open("phonedir.txt", ios::app | ios::binary);
-	if (fs.is_open() == 0)
-	{
-		cout << "Cannot open file" << endl;
-		return;
-	}
+vector<CarPark> cars;
 
-	fs.write((char*)&pd, sizeof(pd));
-	fs.close();
-}
+struct func {
+    void newCar() {
+        string r, a;
+        int s;
+        cout << "Enter car registration number: ";
+        cin >> r;
+        cout << "Enter car arrival time: ";
+        cin >> a;
+        cout << "Enter car slot: ";
+        cin >> s;
+        CarPark car(r, a, s);
+        cars.push_back(car);
+        cout << "Car has been parked!" << endl;
+    }
 
-void searchByName(string name) {
-	ifstream fs;
-	fs.open("phonedir.txt", ios::in | ios::binary);
-	if (fs.is_open() == 0)
-	{
-		cout << "Cannot open file" << endl;
-		return;
-	}
+    void removeCar() {
+        string r;
+        cout << "Enter car registration number: ";
+        cin >> r;
+        for (int i = 0; i < cars.size(); i++) {
+            if (cars[i].getRegNo() == r) {
+                cars.erase(cars.begin() + i);
+                cout << "Car removed!" << endl;
+                return;
+            }
+        }
+        cout << "Car not found!" << endl;
+        return;
+    }
 
-	PhoneDirectory pd;
-	bool found = false;
-	while (fs.read((char*)&pd, sizeof(pd))) {
-		if (pd.getFullName() == name) {
-			cout << "Phone number of " << name << " is " << pd.getPhoneNumber() << endl;
-			found = true;
-			break;
-		}
-	}
+    void updateCar() {
+        string r;
+        int s;
+        cout << "Enter car registration number: ";
+        cin >> r;
+        for (int i = 0; i < cars.size(); i++) {
+            if (cars[i].getRegNo() == r) {
+                cout << "Enter new car slot: ";
+                cin >> s;
+                cars[i].setSlot(s);
+                cout << "Car slot updated successfully!"<<endl;
+                return;
+            }
+        }
+        cout << "Car not found!" << endl;
+    }
 
-	if (!found) {
-		cout << "Record not found!" << endl;
-	}
+    void totalParked() {
+        cout << "Total cars parked right now: " << cars.size() << endl;
+    }
 
-	fs.close();
-}
+    void removeAll() {
+        cars.clear();
+        cout << "All cars have been removed!" << endl;
+    }
 
-void searchByEmail(string email) {
-	ifstream fs;
-	fs.open("phonedir.txt", ios::in | ios::binary);
-	if (fs.is_open() == 0)
-	{
-		cout << "Cannot open file" << endl;
-		return;
-	}
+    void search(string r) {
+        for (int i = 0; i < cars.size(); i++) {
+            if (cars[i].getRegNo() == r) {
+                cout << "Car found at slot: " << cars[i].getSlot() << endl;
+                return;
+            }
+        }
+        cout << "Car not found!" << endl;
+    }
 
-	PhoneDirectory pd;
-	bool found = false;
-	while (fs.read((char*)&pd, sizeof(pd))) {
-		if (pd.getEmail() == email) {
-			cout << "Phone number of the person holding email address " << email << " is " << pd.getPhoneNumber() << endl;
-			found = true;
-			break;
-		}
-	}
-
-	if (!found) {
-		cout << "Record not found!" << endl;
-	}
-
-	fs.close();
-}
-
-void printDirectory() {
-	ifstream fs;
-	fs.open("phonedir.txt", ios::in | ios::binary);
-	if (fs.is_open() == 0)
-	{
-		cout << "Cannot open file" << endl;
-		return;
-	}
-
-	PhoneDirectory pd;
-	while (fs.read((char*)&pd, sizeof(pd))) {
-		cout << "Full Name: " << pd.getFullName() << endl;
-		cout << "Phone Number: " << pd.getPhoneNumber() << endl;
-		cout << "Email: " << pd.getEmail() << endl << endl;
-	}
-
-	fs.close();
-}
+    void menu() {
+        cout << "Welcome to the Car Parking System" << endl;
+        cout << "----------------------------------" << endl;
+        cout << "Chose the correct option:" << endl;
+        cout << "1. Park a new car" << endl;
+        cout << "2. Remove a car" << endl;
+        cout << "3. Update a car slot" << endl;
+        cout << "4. Print total number of parked cars" << endl;
+        cout << "5. Remove all parked cars" << endl;
+        cout << "6. Search car by registration number" << endl;
+        cout << "7. Exit" << endl;
+        cout << "Your choice: ";
+    }
+};
 
 int main()
 {
-	record student[10];
-	for (int i = 0; i < 10; i++) {
-		string temp;
-		cout << "Enter the data of Student " << i + 1 << " :"<<endl;
-		cout << "Reg No: ";
-		cin >> student[i].regno;
-		cout << "Full Name: ";
-		cin >> student[i].fullname;
-		cout << "Program: ";
-		cin >> student[i].program;
-		cout << "Contact: ";
-		cin >> student[i].contact;
+    func f;
+    int ch;
+    f.menu();
+    cin >> ch;
+    while (ch < 1 || ch>7) {
+		cout << "Enter a valid choice: ";
+		cin >> ch;
 	}
-	fstream fs;
-	fs.open("Record.txt", ios::binary | ios::out);
-	if (fs.is_open() == 0)
-	{
-		cout << "Cannot open file"<<endl;
+    if (ch == 1) {
+        f.newCar();
+    }
+    else if (ch == 2) {
+        f.removeCar();
 	}
-	else
-	{
-		// writing a structure to binary file
-		fs.write((char*)&student, sizeof(student));
+	else if (ch == 3) {
+		f.updateCar();
 	}
-	fs.close();
-	fs.open("Record.txt", ios::binary | ios::in);
-	if (fs.is_open() == 0)
-	{
-		cout << "Cannot open file"<<endl;
+	else if (ch == 4) {
+		f.totalParked();
 	}
-	else
-	{
-		cout << "Printing the sturcture" << endl;
-		for (int i = 0; i < 10; i++) {
-			cout << "Student " << i + 1 << endl;
-			cout << "regno=" << student[i].regno << endl;
-			cout << "Full Name=" << student[i].fullname << endl;
-			cout << "Program=" << student[i].program << endl;
-			cout << "Contact=" << student[i].contact << endl;
-		}
+	else if (ch == 5) {
+		f.removeAll();
 	}
-	fs.close();
-	input();
-	output();
-	PhoneDirectory pd1;
-	pd1.setFullName("ahbfbja");
-	pd1.setPhoneNumber("127890");
-	pd1.setEmail("fwfwngwg");
-	writeToFile(pd1);
-
-	PhoneDirectory pd2;
-	pd2.setFullName("JNCbe");
-	pd2.setPhoneNumber("43534535");
-	pd2.setEmail("dsniwunfwi");
-	writeToFile(pd2);
-
-	searchByName("wfbewkf");
-	searchByEmail("fwefbwhbf");
-	printDirectory();
-	return 0;
+	else if (ch == 6) {
+		string r;
+        cout << "Enter car registration number: ";
+        cin >> r;
+		f.search(r);
+	}
+	else if (ch == 7) {
+		cout << "Exiting..." << endl;
+		return 0;
+	}
+    return 0;
 }
